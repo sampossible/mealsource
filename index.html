@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Compiled and minified CSS -->
+
+    
+    <title>MealSource</title>
+    <style>
+      /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
+
+    </style>
+  </head>
+
+
+
+  <body>
+  
+
+    <div id="control">
+      <h2>Find Local Farmers Markets</h2>
+      <p>We'll help you locate your closest farmers markets. Simply choose an option below to begin...</p>
+      <form method="get" id="chooseZip">
+        <button type="submit" class="learnButton">Use current location</button>
+        <button type="button" id="searchZip" class="learnButton">Search by Zip Code</button>
+        <div class="clear"></div>
+        <div class="zipSearch">
+          <input id="textZip" type="text" name="zip" placeholder="enter your zip code" autofocus>
+          <button type="submit" class="learnButton">Search</button>
+        </div>
+        <div class="clear"></div>
+      </form>
+    
+    </div>
+
+    <!--The div element for the map -->
+    <div id="map-canvas"></div>
+    <script>
+
+
+
+
+/*
+function initMap() {
+  // The location of Uluru
+  var samammish = {lat: 27.2038, lng: 77.5011};
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('map-canvas'), {zoom: 5, center: new google.maps.LatLng(37.09024, -100.712891)});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: samammish, map: map});
+}
+
+
+other random shot
+ var pantryRef = db.ref('pantries').on('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      var childData = childSnapshot.val();
+      var marker = new google.maps.Marker({position: {lat: parseFloat(childData.lat), lng: parseFloat(childData.lang)}, map: map});
+    });
+});
+*/
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGB85Le1mjODP7viK_NzERugvsYSRngWM&callback=initMap">
+    </script>
+
+    <style>
+              html, body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px
+  }
+
+
+body {
+	font-family: "Open Sans", sans-serif;
+	/* font-family: 'Libre Baskerville', serif; */
+	color: #686868;
+	font-size: 15px;
+	background-color: #6B7283;
+}
+
+
+.clearfix:after { 
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
+}
+
+.clear{
+	clear: both;
+}
+
+a {
+	text-decoration: none;
+	color: #79accd;
+}
+
+a:hover {
+	color: #79accd;
+	text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 17px;
+	font-weight: 300;
+	/* color: #ff5400; */
+}
+
+h1 {
+	font-size: 28px;
+}
+
+h2 {
+	font-size: 26px;
+}
+
+h3 {
+	font-size: 24px;
+	margin-bottom: 15px;
+}
+
+ul{
+	list-style-type: square;
+	margin-left: 60px;
+	margin-bottom: 30px;
+}
+
+ul li{
+	line-height: 1.9;
+}
+
+
+.zipSearch{
+	display: none;
+}
+
+/* Popup */
+.markerPop{
+	
+}
+
+
+.twitter{
+	float: left;
+}
+
+.facebook{
+	float: left;
+	width: 150px !important;
+	height: 35px !important;
+}
+
+/* tablets and desktop */
+	
+	p {
+		margin-bottom: 15px;
+		line-height: 20px;
+	}
+
+	#map-canvas{
+		height: 100%;
+	}
+	#control{
+		float: left;
+		color: #D8D8DD;
+		width: 15%;
+		padding: 50px 30px 10px 30px;
+		border-right: 1px solid black;
+	}
+
+	#control input[type=text]{
+		width: 100%;
+		height: 40px;
+		font-size: 24px;
+		background-color: #6B7283;
+		border: 1px solid #BE757E;
+	}
+	
+	.learnButton {
+		margin-top: 10px;
+		margin-bottom: 20px;
+		background: #BE757E;
+		border: 0;
+		color: #D8D8DD;
+		height: 37px;
+		line-height: 37px;
+		width: 100%;
+		text-align: center;
+		cursor: pointer;
+	}
+	
+	#mc_embed_signup{
+	margin-top: 30px;
+	float: left;   
+	width: 300px;
+	}
+
+	#mc_embed_signup form label{
+		margin-bottom: 30px;
+		line-height: 20px;
+		clear: right;
+	}
+
+	#mc_embed_signup form input.email{
+		width: 100%;
+		height: 40px;
+		font-size: 24px;
+		background-color: #6B7283;
+		border: 1px solid #BE757E;
+	}
+    
+
+    </style>
+
+<script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-firestore.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAr3SbjBL0WDV-nuO1UvmQ6xRg1PecehPw",
+    authDomain: "mealsource-842d2.firebaseapp.com",
+    databaseURL: "https://mealsource-842d2.firebaseio.com",
+    projectId: "mealsource-842d2",
+  };
+  firebase.initializeApp(config);
+  
+  // make auth and firestore references
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // update firestore settings
+  db.settings({ timestampsInSnapshots: true });
+</script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="auth.js"></script>
+  <script src="index.js"></script>
+  </body>
+
+</html>
+
+<!--
+<script>
+  var map;
+
+  function initMap() {
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 6.930274, lng: 79.861618},
+        zoom: 16.5,
+        panControl: false,
+        gestureHandling: 'greedy',
+        disableDefaultUI: true,
+        disableDoubleClickZoom: true,
+      });
+
+      var dbRef= firebase.database().ref('pantries');
+      dbRef.on('value', function(snapshot) {
+          var snap = snapshot.val();
+          var marker = new google.maps.Marker({
+            position: {lat: parseFloat(snap.lat), lng: parseFloat(snap.lang)},
+            map: map
+          });
+      });
+  }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGB85Le1mjODP7viK_NzERugvsYSRngWM&callback=initMap">
+</script>
+-->
